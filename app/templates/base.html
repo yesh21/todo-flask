@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <title>Todo App</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}">
+    <link rel="stylesheet" href="base.css">
+    
+</head>
+
+<body class="dark-mode">
+
+
+    <div class="mode">
+        <label style="margin-top: 50px;" class="switch">
+        <input type="checkbox" onclick="myFunction()">
+        <span class="slider round"></span>
+      </label>
+    </div>
+    
+    <div style="margin-top: 50px;" class="app">
+        <a class="app-img"></a>
+        <h1 class="title">To-Do</h1>
+         </div>
+         <div>
+          
+        <form class="addtask" action="/add" method="post">
+            <label style="padding-bottom: 5px; font-family: Lucida Console, Courier, monospace;">ADD TASK:</label>
+            <div class="taskadder">  
+                <input type="text" name="title" placeholder="Enter Todo..." class="inputtask" required><br>
+                
+                <button class="submitbtn" type="submit">+</button>
+            </div>
+            <textarea id = "myTextArea" name="descript"
+                    class="text-area"
+                    rows = "3"
+                    cols = "20" placeholder="Description"></textarea>
+                    
+        </form>
+        
+        
+
+        <hr class="hr">
+
+        <div style="align-items: center;margin: auto;width: 550px; padding-bottom: 30px;justify-content: center;">
+          <a class="task"  href="/complete">Completed Tasks!</a>
+          <a class="task"   href="/incomplete">TO-DO Tasks!</a></div>
+
+        {% for todo in todo_list %}
+        
+        <div style="align-items: center; position: relative; margin: auto; width: 60%;">
+        <button class="collapsible"> {{ todo.title }} | Added on {{todo.date.date() }}       
+          <a class="delete" href="/delete/{{ todo.id }}"> </a></button>
+<div class="content">
+    <br> {{ todo.descript }}
+
+
+            <hr>
+</div>
+<br>
+</div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function myFunction() {
+           var element = document.body;
+           element.classList.toggle("light-mode");
+           var element1 = document.form__field;
+           element1.classList.toggle("dark-text")
+           
+        }
+        </script>    
+        <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+            
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                  content.style.maxHeight = null;
+                } else {
+                  content.style.maxHeight = content.scrollHeight + "px";
+                } 
+              });
+            }
+            </script>
+            <script>
+              document.getElementById('date').value = moment().format('MM-DD-YYYY');
+              </script>
+              
+</body>
+
+</html>
